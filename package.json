@@ -10,10 +10,15 @@
 		"prod": "node src/main.mjs"
 	},
 	"dependencies": {
-		"fastify": "^4.26.2"
+		"@fastify/autoload": "^5.8.0",
+		"@fastify/swagger": "^8.14.0",
+		"@scalar/fastify-api-reference": "^1.20.27",
+		"fastify": "^4.26.2",
+		"fastify-plugin": "^4.5.1"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
-		"eslint": "^9.0.0"
+		"eslint": "^9.0.0",
+		"pino-pretty": "^11.0.0"
 	}
 }
