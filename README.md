@@ -1,0 +1,2 @@
+# hello-fastify
+> 🦕 playground fastify
