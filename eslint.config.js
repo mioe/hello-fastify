@@ -8,7 +8,7 @@ export default [
 			'comma-dangle': ['error', 'always-multiline'],
 			'no-return-await': 'off',
 			'no-undef': 'off',
-			'no-unused-vars': 'off',
+			'no-unused-vars': ['error', { args: 'all', argsIgnorePattern: '^_' }],
 			'quote-props': ['error', 'as-needed'],
 			'space-before-function-paren': ['error', 'never'],
 			indent: ['error', 'tab'],
