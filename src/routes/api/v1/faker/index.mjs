@@ -25,6 +25,9 @@ export default (async(fastify, _opts) => {
 					faker.company.name(),
 					dayjs(faker.date.birthdate({ min: 18, max: 65, mode: 'age' }))
 						.format('DD.MM.YYYY'),
+					faker.color.human(),
+					faker.animal.bird(),
+					`${faker.number.float()}`,
 				])
 			}
 
