@@ -7,8 +7,8 @@
 		"pnpm": ">=8"
 	},
 	"scripts": {
-		"dev": "node --watch src/main.mjs",
-		"prod": "node src/main.mjs"
+		"dev": "node --watch --env-file=.env src/main.mjs",
+		"prod": "node --env-file=.env src/main.mjs"
 	},
 	"dependencies": {
 		"@fast-csv/format": "^5.0.0",

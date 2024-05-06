@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+const host = process.env.APP_HOST ?? 'localhost'
+const port = process.env.APP_PORT ?? '3000'
+
 const fastify = Fastify({
 	logger: {
 		transport: {
@@ -35,7 +38,7 @@ fastify.register(autoload, {
 })
 
 try {
-	await fastify.listen({ port: 3000 })
+	await fastify.listen({ host, port })
 } catch (err) {
 	fastify.log.error(err)
 	process.exit(1)
