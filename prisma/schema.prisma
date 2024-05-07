@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SysFieldType {
+  DATE
+  NUMBER
+  STRING
+}
+
+enum CustomFieldType {
+  DATE
+  NUMBER
+  STRING
+}
+
+model Contact {
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_foreign_id String             @db.Uuid
+  SysFieldValue      SysFieldValue[]
+  CustomFieldValue   CustomFieldValue[]
+  ContactTag         ContactTag[]
+}
+
+model SysField {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String          @unique
+  type          SysFieldType
+  SysFieldValue SysFieldValue[]
+
+  @@index([name], type: BTree)
+}
+
+model SysFieldValue {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sys_field    SysField @relation(fields: [sys_field_id], references: [id], onDelete: Cascade)
+  sys_field_id String   @db.Uuid
+  contact      Contact  @relation(fields: [contact_id], references: [id], onDelete: Cascade)
+  contact_id   String   @db.Uuid
+  value        String
+}
+
+model CustomField {
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_foreign_id String             @db.Uuid
+  name               String
+  type               CustomFieldType
+  CustomFieldValue   CustomFieldValue[]
+}
+
+model CustomFieldValue {
+  id              String      @id @default(dbgenerated("gen_random_uuid()"))
+  custom_field    CustomField @relation(fields: [custom_field_id], references: [id], onDelete: Cascade)
+  custom_field_id String      @db.Uuid
+  contact         Contact     @relation(fields: [contact_id], references: [id], onDelete: Cascade)
+  contact_id      String      @db.Uuid
+  value           String
+}
+
+model Tag {
+  id                 String       @id @default(dbgenerated("gen_random_uuid()"))
+  company_foreign_id String       @db.Uuid
+  name               String
+  ContactTag         ContactTag[]
+}
+
+model ContactTag {
+  id         String  @id @default(dbgenerated("gen_random_uuid()"))
+  contact    Contact @relation(fields: [contact_id], references: [id], onDelete: Cascade)
+  contact_id String  @db.Uuid
+  tag        Tag     @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+  tag_id     String  @db.Uuid
+}
